@@ -6,6 +6,7 @@ var postUrl = "https://tukulab.com/qbook/api/create.php";
 chrome.storage.local.get(
   ["enabled", "sourceSelect", "modeSelect", "manualMode"],
   (data) => {
+    console.log(data);
     if (data.sourceSelect) {
       sourceSelect = data.sourceSelect;
     }
@@ -17,13 +18,18 @@ chrome.storage.local.get(
       setTimeout(function () {
         if (sourceSelect == "vipbsn") {
           var chapter = document.getElementsByClassName("webkit-chapter")[0];
+          console.log("chapter " + chapter);
           var title = document.getElementsByClassName("chapter-title")[0];
+          console.log(title.innerText);
+          console.log("title " + title);
           var book = getElementByXpath(
-            "/html/body/div[1]/div[1]/div[1]/div[2]/div[1]/div/div/nav/ol/li[3]/a"
+            "//*[@id='box-chapter-content']/div/div[2]/div[1]/div/div/nav/ol/li[3]/a"
           );
+          console.log("book " + book.innerText);
           var bookAuthor = getElementByXpath(
             '//*[@id="id_chap_content"]/ul/li[2]/p'
           ).innerText;
+          console.log("bookAuthor " + bookAuthor);
           var btnBuyChapter = document.getElementsByClassName("btn-buy")[0];
           if (btnBuyChapter) {
             console.log("chưa mua chương");
@@ -71,7 +77,7 @@ function insertTexttoDb(
       //  trigger next button
       if (modeSelect == 1) {
         let x = getElementByXpath(
-          "/html/body/div[1]/div[1]/div[1]/div[2]/div[1]/div/div/div[2]/div[1]/div[2]/a"
+          "//*[@id='box-chapter-content']/div/div[2]/div[1]/div/div/div[2]/div[1]/div[2]/a"
         );
         x.click();
       }
@@ -124,27 +130,3 @@ function textbetween(s, prefix, suffix) {
   }
   return s;
 }
-// function copyTextToClipboard(text) {
-//   var copyFrom = document.createElement("textarea");
-//   copyFrom.textContent = text;
-//   document.body.appendChild(copyFrom);
-//   copyFrom.select();
-//   navigator.clipboard.writeText(copyFrom.value).then(
-//     () => {
-//       console.log("copy done");
-//       copyFrom.blur();
-//       document.body.removeChild(copyFrom);
-
-//       // trigger next button
-//       // let x = getElementByXpath(
-//       //   "/html/body/div[1]/div[1]/div[1]/div[2]/div[1]/div/div/div[2]/div[1]/div[2]/a"
-//       // );
-//       // x.click();
-//     },
-//     () => {
-//       //clipboard write failed, use fallback
-//       console.log("copy fail");
-//     }
-//   );
-//   //de-select the text using blur() & remove.
-// }
